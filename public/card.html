@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>春节12响</title>
+    <meta charset="utf-8" />
+    <meta name="anthor" content="1984" />
+    <link href="./myjs.js" type="text/javascript" rel="javascript">
+    <link href="./mystyle.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+    <h1 id="title1" class="title2">card house</h1>
+    <h2 group class="header">header</h2>
+    <!--<form>
+            <input type="text" name="username" style="display: block;"/>
+            <br/>
+            <div>
+            <input type="password" name="username" />
+            </div>
+        </form>-->
+    <div style="width:100%; height:500px ; background-color: plum">
+        <div style="width:50% ; height:500px ; background-color:gold; float: left;">
+            <p>left</p>
+            <table>
+                <tr>
+                    <td>5k</td>
+                    <td id="bonus_0">5000</td>
+                </tr>
+                <tr>
+                    <td>rs</td>
+                    <td id="bonus_1">3000</td>
+                </tr>
+                <tr>
+                    <td>sf</td>
+                    <td id="bonus_2">1000</td>
+                </tr>
+                <tr>
+                    <td>4k</td>
+                    <td id="bonus_3">500</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>total points</td>
+                    <td id="total_points">3000</td>
+                </tr>
+                <tr>
+                    <td>bottom pour</td>
+                    <td id="bottom_pour">3000</td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="width:50% ; height:500px ; background-color:violet; float: left;">
+            <p id="right_result">right</p>
+            <table>
+                <tr>
+                    <td>5k</td>
+                    <td id="poker_0">5000</td>
+                </tr>
+                <tr>
+                    <td>rs</td>
+                    <td id="poker_1">3000</td>
+                </tr>
+                <tr>
+                    <td>sf</td>
+                    <td id="poker_2">1000</td>
+                </tr>
+                <tr>
+                    <td>4k</td>
+                    <td id="poker_3">500</td>
+                </tr>
+                <tr>
+                    <td>fh</td>
+                    <td id="poker_4">5000</td>
+                </tr>
+                <tr>
+                    <td>fl</td>
+                    <td id="poker_5">3000</td>
+                </tr>
+                <tr>
+                    <td>st</td>
+                    <td id="poker_6">5000</td>
+                </tr>
+                <tr>
+                    <td>2p</td>
+                    <td id="poker_7">3000</td>
+                </tr>
+                <tr>
+                    <td>1p</td>
+                    <td id="poker_8">5000</td>
+                </tr>
+                <tr>
+                    <td>none</td>
+                    <td id="poker_9">0</td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+    <div style="width:100%; height:500px ; background-color:coral; ">
+        <p>poker</p>
+        <div style="float: left; width: 20%; background-color: rosybrown"> <img id="card_0" width="100%"
+                src="./cards/0/0.png" />
+            <label id="label_0" style="width: 20%; font-size: 50px; ">HOLD</label></div>
+        <div style="float: left; width: 20%; background-color: tan"> <img id="card_1" width="100%"
+                src="./cards/0/1.png" />
+            <label id="label_1" style="width: 20%; font-size: 50px; ">HOLD</label></div>
+        <div style="float: left; width: 20%; background-color: yellowgreen"> <img id="card_2" width="100%"
+                src="./cards/1/14.png" />
+            <label id="label_2" style="width: 20%; font-size: 50px; ">HOLD</label></div>
+        <div style="float: left; width: 20%; background-color: indianred"> <img id="card_3" width="100%"
+                src="./cards/2/14.png" />
+            <label id="label_3" style="width: 20%; font-size: 50px; ">HOLD</label></div>
+        <div style="float: left; width: 20%; background-color: palegoldenrod"> <img id="card_4" width="100%"
+                src="./cards/3/14.png" />
+            <label id="label_4" style="width: 20%; font-size: 50px; ">HOLD</label></div>
+    </div>
+
+    <div style="width:100%; height:500px ; background-color:aqua; ">
+        <p>control</p>
+        <input id="pour_input" type="text" disabled>
+        <button id="plus">+</button>
+        <button id="minus">-</button>
+        <button onclick="onClickRandom() ">start</button>
+        <button onclick="onClickReset() ">restart</button>
+        <button onclick="onClickSwap() ">swap</button>
+    </div>
+    <script src="./WebCode_JavaScript/jquery-3.3.1.min.js"></script>
+    <!--引用jQuery-->
+    <!--<script src="C:/Users/lmh/Desktop/H5/card.js"></script>-->
+    <script>
+        const bonusText = [];
+        for (let i = 0; i < 4; i++) {
+            bonusText.push($('#bonus_' + i)); //'#bonus_' + i
+        }
+        const pokersText = [];
+        for (let i = 0; i < 10; i++) {
+            pokersText.push($('#poker_' + i));
+        }
+        //每种牌对应的倍率 5k => 750...
+        const pokersRate = [
+            750, 250, 150, 60, 10, 7, 5, 3, 2, 1
+        ];
+        const totalText = $('#total_points');
+
+        const pourText = $('#bottom_pour');
+
+        const cardImages = [];
+        const cardLabels = [];
+        let keep = [];
+        for (let i = 0; i < 5; i++) {
+            const card = $(`#card_${i}`);
+            cardImages.push(card);
+
+            const label = $(`#label_${i}`);
+            cardLabels.push(label);
+            label.isshown = false;
+            label.hide();
+            card.on('click', () => {
+
+                //isshown?label.show():label.hide()
+
+                if (label.isshown) {
+                    label.hide();
+                    label.isshown = false;
+                } else {
+                    label.show();
+                    label.isshown = true;
+                }
+                if (label.isshown) {
+                    keep.push(i)
+                } else {
+                    delete keep[keep.indexOf(i)]
+                }
+                const temp = []
+                console.log('if')
+                keep.forEach(e => {
+
+                    if (e || e === 0) {
+
+                        temp.push(e)
+                    }
+                })
+                keep = temp.sort()
+                console.log('keep:', keep)
+                console.log('temp:', temp)
+            })
+        }
+        console.log('keep:', keep)
+
+
+        const pourInput = $('#pour_input');
+        const plusBtn = $('#plus');
+        const minusBtn = $('#minus');
+        const startBtn = $('#start');
+        let pourScore = 0;
+        plusBtn.on('click', () => {
+            pourScore += 100;
+            pourInput.val(pourScore);
+            updateDisplay(pourScore);
+        })
+        let gameStart = false;
+        startBtn.on('click', () => {
+            $.post('/pour', {
+                coin: pourScore
+            }, res => {
+                if (res.code === 0) {
+                    const cards = res.cards
+                    for (let i = 0; i < cards.length; i++) {
+                        const card = cards[i];
+                        const url = `./cards/${card._type}/${card._value}.png`;
+                        $(`#card_${i}`).attr('src', url);
+                    }
+                    gameStart = true
+                }
+
+            })
+
+        })
+        minusBtn.on('click', () => {
+            if (pourScore > 0) {
+                pourScore -= 100;
+                pourInput.val(pourScore);
+                updateDisplay(pourScore);
+            }
+
+        })
+
+        let updateDisplay = score => {
+            for (let i = 0; i < pokersRate.length; i++) {
+                const td = pokersText[i];
+                const rate = pokersRate[i];
+                td.text(score * rate);
+            }
+        }
+
+        const setCardImg = (cards) => {
+
+            for (let i = 0; i < cards.length; i += 1) {
+
+                const card = cards[i];
+
+                cardImages[i].attr('src', card.path);
+
+            }
+
+        };
+
+        function onClickRandom() {
+            // const cards = randomCards();
+            // console.log(cards);
+            // for (let i = 0; i < 5; i++) {
+            //     const img = cardImages[i];
+            //     const data = cards[i];
+            //     img.attr('src', data.relativeURL()); 
+            console.log('res');
+            $.get('/random', function (res) {
+                const cards = res.cards;
+
+                console.log('--res:', res);
+
+                //cards = res;
+                let i;
+                for (i = 0; i < cards.length; i++) {
+                    const card = cards[i];
+                    const url = `./cards/${card._type}/${card._value}.png`;
+                    $(`#card_${i}`).attr('src', url);
+                }
+                $(`#card_${i}`).text(res.result)
+            });
+        }
+        let onClickReset = () => {
+            console.log('1keep:', keep)
+            $.post('/switch', {
+                keep: keep
+            }, function (res) {
+
+            });
+            for (let i = 0; i < 5; i++) {
+                $(`#card_${i}`).attr('src', './cards/0/0.png');
+            }
+        }
+        let onClickSwap = () => {
+            // for (let i = 0; i < 5; i++) {
+
+            let whole = [0, 1, 2, 3, 4]
+
+            if (keep != null) {
+                // let m = []
+                // whole.forEach(function (al) {
+                //     m[al] = al;
+                // })
+                // keep.forEach(function (bl) {
+                //     delete m[bl];
+                // })
+                // let last = Object.keys(m)
+                $.post('/switch', {
+                    keep,
+                    length: keep.length,
+                }, function (res) {
+                    const cards = res.Cards;
+                    console.log('card', cards)
+                    for (let i = 0; i < cards.length; i++) {
+                        const card = cards[i];
+                        const url = `./cards/${card._type}/${card._value}.png`;
+                        $(`#card_${i}`).attr('src', url);
+                    }
+                    // $.get('/random', function (res) {
+                    //     const cards = res.cards;
+                    //     for (let i = 0; i < 5; i++) {
+                    //         const card = cards[i];
+                    //         const url = `./cards/${card._type}/${card._value}.png`;
+                    //         $(`#card_${last[i]}`).attr('src', url);
+                    //     }
+                });
+
+            }
+            // }
+        }
+    </script>
+</body>
+
+</html>

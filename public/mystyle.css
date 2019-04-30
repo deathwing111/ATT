@@ -1,0 +1,20 @@
+.title2{
+    color: wheat;/*十六进制r两位 g两位 b 两位*/
+    font-size: 40px;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
+    border-style: dashed;
+    border-width: 5px;
+    border-color: blueviolet;
+}/*属性集合*/
+[group] {
+    background-color: bisque;
+    font-size: 20px;
+
+}
+#right_result {
+    color: #000;
+    font-size: 40px;
+}
+

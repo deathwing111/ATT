@@ -1,0 +1,27 @@
+{
+  "name": "att",
+  "version": "1.0.0",
+  "description": "att game",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/deathwing111/ATT.git"
+  },
+  "keywords": [
+    "JavaScript"
+  ],
+  "author": "lmh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deathwing111/ATT/issues"
+  },
+  "homepage": "https://github.com/deathwing111/ATT#readme"
+}

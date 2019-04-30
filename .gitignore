@@ -1,0 +1,5 @@
+node_modules
+public/ServicesCode
+public/WebCode_JavaScript
+public/.node_repl_history
+**/quar*

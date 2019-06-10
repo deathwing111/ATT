@@ -1,0 +1,51 @@
+<!DOCTYPE html >
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<div id="signin">
+<table border="2">
+<tr>
+<td>user</td>
+<td><input type="text" name="username" id="username"/></td>
+<!--<td><input type="submit" name="submit" id="submit" value="提交"/></td>-->
+</tr>
+<tr>
+<td>password</td>
+<td><input type="text" name="password" id="password"/></td>
+
+</tr>
+
+<tr>
+<td colspan="2" ><input type="button" name="submit" id="submit" value="login"/></td>
+
+</tr>
+</table>
+<a href="./signup">去注册</a>
+<br />
+<script src="./WebCode_JavaScript/jquery-3.3.1.min.js"></script>
+<script>
+//function onClickRegister()
+    $('#submit').on('click', () => {
+
+        const username = $('#username').val()
+        const password = $('#password').val()
+        $.post('/signin',{
+            username:username,
+            password:password
+        },res => {
+            console.log('--res',res)
+            console.log('--rescode', res.code)
+            if (res.code === 0) {
+                alert('成功')
+                window.location = "/"
+            } else{
+                alert(`失败:${res.desc}`)
+            }
+        })
+    })
+</script>
+</div>

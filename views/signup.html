@@ -1,0 +1,64 @@
+<!DOCTYPE html >
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+<body>
+<table border="3">
+<tr>
+<td>user</td>
+<td><input type="text" name="username" id="username"/></td>
+<!--<td><input type="submit" name="submit" id="submit" value="提交"/></td>-->
+</tr>
+<tr>
+<td>password</td>
+<td><input type="text" name="password" id="password"/></td>
+
+</tr>
+<tr>
+<td>repassword</td>
+<td><input type="text" name="repassword" id="repassword"/></td>
+</tr>
+<tr>
+<td></td>
+<td><input type="button" name="submit" id="submit" value="提交"/></td>
+</tr>
+</table>
+<a href="./signin">去登录</a>
+<br />
+<script src="./WebCode_JavaScript/jquery-3.3.1.min.js"></script>
+<script>
+//function onClickRegister()
+    $('#submit').on('click', () => {
+
+        const username = $('#username').val()
+        const password = $('#password').val()
+        const repassword = $('#repassword').val()
+        
+        $.post('/signup',{
+            username:username,
+            password:password
+        },res => {
+            console.log('res',res)
+            console.log('--rescode', res.code)
+            if (res.code === 0) {
+                alert('注册成功')
+               window.location = "/signin"
+            } else{
+                alert(`注册失败:${res.desc}`)
+            }
+        })
+    })
+    // if(username.length === 0 || password.length === 0 || repassword.length === 0){
+    //     alert('felled')
+    //     return
+    // }
+    // if(password !== repassword){
+    //     alert('felled')
+    //     return
+    // }
+    
+
+</script>
